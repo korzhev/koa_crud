@@ -1,0 +1,18 @@
+version: '3.4'
+services:
+  db:
+    image: mongo:3.6
+    ports:
+      - "27017:27017"
+  server:
+    build:
+      context: ./src/tournament_server
+      dockerfile: Dockerfile-alternative
+    image: tournament_server
+    command: "go run server.go"
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+    env_file:
+      - tournament.env
